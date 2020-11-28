@@ -24,3 +24,7 @@ npm install materialize-css@next /*после подключаю его в index
 
 npm install react-router-dom --для работы с ротуами
 
+
+
+email: "n35@mail.ua"
+password: "12345asd5"

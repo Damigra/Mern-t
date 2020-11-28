@@ -1,10 +1,11 @@
 
-import React from 'react'
+import React, {useCallback} from 'react'
+
 export const useHttp = () => {
     const [loading, setLoading] = React.useState(false)
     const [error, setError] = React.useState(null)
 
-    const request = React.useCallback(async (url, method = 'Get', body = null, headers = {}) => {
+    const request = React.useCallback(async (url, method = 'GET', body = null, headers = {}) => {
         setLoading(true)
         try {
             if (body) {
@@ -16,7 +17,9 @@ export const useHttp = () => {
             if (!response.ok) {
                 throw new Error(data.message || 'Что-то пошло не так')
             }
+
             setLoading(false)
+
             return data
         } catch (e) {
             setLoading(false)
@@ -25,8 +28,6 @@ export const useHttp = () => {
         }
     }, [])
 
-    const clearError = () => {
-        setError(null)
-    }
+    const clearError = useCallback(() => setError(null), [])
     return { loading, request, error, clearError }
 }

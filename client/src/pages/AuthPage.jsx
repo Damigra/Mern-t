@@ -1,25 +1,39 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useHttp } from './../hooks/http.hook';
+import { useMessage } from './../hooks/message.hook';
 
 
 export default function AuthPage() {
-    const { loading, request } = useHttp()
+    const message = useMessage()
 
-
-    const [form, setForm] = React.useState({
+    const { loading, request, error, clearError } = useHttp()
+    const [form, setForm] = useState({
         email: '', password: ''
     })
+
+
+    React.useEffect(() => {
+        message(error)
+        clearError()
+    }, [error, message, clearError])
+
+
     const changeHandler = event => {
         setForm({ ...form, [event.target.name]: event.target.value })
     }
 
     const registerHandler = async () => {
         try {
-            const data = await request('/api/auth/register', 'Post', { ...form })
-            console.log('Data', data)
+            const data = await request('/api/auth/register', 'POST', { ...form })
+            message(data.message)
         } catch (e) { }
     }
-
+    const loginHandler = async () => {
+        try {
+            const data = await request('/api/auth/login', 'POST', { ...form })
+            message(data.message)
+        } catch (e) { }
+    }
     return (
         <div className="row">
             <div className="col s6 offset-s3">
@@ -34,6 +48,7 @@ export default function AuthPage() {
                                 placeholder="Введите email"
                                 id="email"
                                 type="text"
+                                name="email"
                                 className="yellow-input"
                                 onChange={changeHandler}
                             />
@@ -44,6 +59,7 @@ export default function AuthPage() {
                                 placeholder="Введите пароль"
                                 id="password"
                                 type="password"
+                                name="password"
                                 className="yellow-input"
                                 onChange={changeHandler}
                             />
