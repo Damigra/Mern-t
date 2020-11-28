@@ -1,0 +1,13 @@
+npm i express
+
+npm i mongoose
+
+npm i bcryptjs --//позволяет хешировать пароле и потом их еще и сравнивать
+
+npm i express-validate
+
+npm i -D concurrently
+
+npm i -D nodemon
+
+npm i jsonwebtoken --//
