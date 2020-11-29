@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useHttp } from './../hooks/http.hook';
 import { useMessage } from './../hooks/message.hook';
+import { AuthContext } from './../context/AuthContext';
 
 
 export default function AuthPage() {
+    const auth = useContext(AuthContext)
     const message = useMessage()
 
     const { loading, request, error, clearError } = useHttp()
@@ -18,6 +20,11 @@ export default function AuthPage() {
     }, [error, message, clearError])
 
 
+    //Чтобы интупы были по умолчнию активны
+    React.useEffect(() => {
+        window.M.updateTextFields()
+    }, [])
+
     const changeHandler = event => {
         setForm({ ...form, [event.target.name]: event.target.value })
     }
@@ -31,7 +38,7 @@ export default function AuthPage() {
     const loginHandler = async () => {
         try {
             const data = await request('/api/auth/login', 'POST', { ...form })
-            message(data.message)
+            auth.login(data.token, data.userId)
         } catch (e) { }
     }
     return (
@@ -70,7 +77,8 @@ export default function AuthPage() {
                         <button
                             className="btn yellow darken-4"
                             style={{ marginRight: 20 }}
-                            disabled={loading}>
+                            disabled={loading}
+                            onClick={loginHandler}>
                             Войти
                              </button>
                         <button
