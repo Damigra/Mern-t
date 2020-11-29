@@ -16,6 +16,8 @@ npm install jsonwebtoken --//
 
 npm install shortid 
 
+npm install --save-dev cross-env
+
 
 --------------------------------------------
 
