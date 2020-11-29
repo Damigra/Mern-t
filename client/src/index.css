@@ -1,7 +1,7 @@
 @import "~materialize-css/dist/css/materialize.css";
 
 body{
-    background-color: rgb(193, 190, 186);
+    background-color: rgb(252, 241, 227);
 }
 input.yellow-input {
     border-bottom: 1px solid #fff!important;
